@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+/*import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from "rxjs";
 import { itinerario } from "../models/itinerario";
@@ -29,4 +29,33 @@ export class EntrafesaService {
     return this.http.get<string[]>(`${this.url1}/destinos`); 
   }
   
+}*/
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { itinerario } from '../models/itinerario';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EntrafesaService {
+  private baseUrl = 'http://localhost:8080/api/v2/api';
+
+  constructor(private http: HttpClient) {}
+
+  buscarItinerario(origen: string, destino: string, fechaViaje: string): Observable<itinerario[]> {
+    const url = `${this.baseUrl}/itinerarios/filtrar?origen=${origen}&destino=${destino}&fechaViaje=${fechaViaje}`;
+    return this.http.get<itinerario[]>(url);
+  }
+
+  getOrigen(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/rutas/origenes`);
+  }
+
+  getDestino(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/rutas/destinos`);
+  }
 }
+
+

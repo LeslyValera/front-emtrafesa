@@ -1,0 +1,32 @@
+.asiento-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); // Ajusta según el diseño
+    gap: 10px;
+  }
+  
+  .asiento {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .disponible {
+    background-color: green;
+    color: white;
+  }
+  
+  .ocupado {
+    background-color: red;
+    color: white;
+  }
+  
+  .reservado {
+    background-color: yellow;
+    color: black;
+  }
+  
+  

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+/*import { Component, OnInit } from '@angular/core';
 import { EntrafesaService } from '../../services/itinerario.service';
 import { itinerario } from '../../models/itinerario';
 
@@ -65,44 +65,54 @@ export class ItinerarioComponent implements OnInit {
     this.itinerarioElegido = itinerario;
     // Aquí podrías avanzar al siguiente paso o mostrar un mensaje
     console.log('Itinerario elegido:', itinerario);
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*buscar(): void {
-    if (this.origen && this.destino && this.fechaViaje) {
-      // Llamada al servicio para buscar itinerarios
-      this.entrafesaService
-        .buscarItinerario(this.origen, this.destino, this.fechaViaje)
-        .subscribe(
-          (data: itinerario[]) => {
-            this.itinerarios = data; // Asignar los datos al array
-          },
-          (error) => {
-            console.error('Error al buscar itinerarios:', error); // Manejo de errores
-          }
-        );
-    } else {
-      console.warn('Todos los campos del formulario son obligatorios.');
-    }
   }*/
-}
+
+    import { Component, OnInit } from '@angular/core';
+    import { EntrafesaService } from '../../services/itinerario.service';
+    import { itinerario } from '../../models/itinerario';
+    
+    @Component({
+      selector: 'app-itinerario',
+      templateUrl: './itinerario.component.html',
+      styleUrls: ['./itinerario.component.scss']
+    })
+    export class ItinerarioComponent implements OnInit {
+      itinerarios: itinerario[] = [];
+      origen: string[] = [];
+      destino: string[] = [];
+      fechaViajeISO: string = '';
+    
+      origenSeleccionado: string = '';
+      destinoSeleccionado: string = '';
+      currentStep: number = 1;
+      itinerarioElegido: itinerario | null = null;
+    
+      constructor(private entrafesaService: EntrafesaService) {}
+    
+      ngOnInit(): void {
+        this.loadOriginsAndDestinations();
+      }
+    
+      private loadOriginsAndDestinations(): void {
+        this.entrafesaService.getOrigen().subscribe(data => this.origen = data);
+        this.entrafesaService.getDestino().subscribe(data => this.destino = data);
+      }
+    
+      buscarItinerarios(): void {
+        const formattedDate = new Date(this.fechaViajeISO).toISOString().split('T')[0];
+        this.entrafesaService.buscarItinerario(this.origenSeleccionado, this.destinoSeleccionado, formattedDate).subscribe(data => {
+          this.itinerarios = data;
+          if (data.length > 0) this.nextStep();
+        });
+      }
+    
+      nextStep(): void {
+        this.currentStep++;
+      }
+    
+      elegirItinerario(itinerario: itinerario): void {
+        this.itinerarioElegido = itinerario;
+      }
+    }
+    
+  

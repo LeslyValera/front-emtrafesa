@@ -1,0 +1,6 @@
+<div class="asiento-container">
+    <div *ngFor="let asiento of asientos" class="asiento" [ngClass]="asiento.estado.toLowerCase()">
+      {{ asiento.numeroAsiento }}
+    </div>
+  </div>
+  
